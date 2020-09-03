@@ -65,13 +65,44 @@ class AmazonBot(object):
             print(price)
             print(url)
 
+            time.sleep(2)
+
+        return prices, urls, names
+
+
 
     def get_product_price(self):
-        pass
+        self.driver.get(url)
+
+        try:
+            price = self.driver.find_element_by_id("priceblock_ourprice").text
+        except:
+            pass
+
+        try:
+            price = self.driver.find_element_by_id("priceblock_dealprice").text
+        except:
+            pass
+
+        if price is None:
+            price = "Not available"
+
+        else:
+            non_decimal = re.compile(r"[^\d.]+")
+            price = non_decimal.sub("", price)
+        return price
+
 
     def get_product_name(self):
-        pass
+        self.driver.get(url)
+        try:
+            product_name = self.driver.find_element_by_id("productTitle").text
+        except:
+            pass
+
+        if product_name is None:
+            product_name = "Not available"
+        return product_name
 
     def close_session(self):
-        pass
-
+        self.driver.close()
